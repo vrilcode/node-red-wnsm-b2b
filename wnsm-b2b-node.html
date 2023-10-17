@@ -1,0 +1,136 @@
+<script type="text/javascript">
+  RED.nodes.registerType('wnsm-b2b', {
+    category: 'input',
+    color: '#bb5d8c',
+    defaults: {
+      creds: {
+        type: 'wnsm-b2b-credentials',
+        required: true
+      },
+      request: {
+        value: 'all_messwerte'
+      },
+      period: {
+        value: 'current_month'
+      },
+      kundenNr: {
+        value: '',
+        validate: RED.validators.regex(/\d+|/)
+      },
+      zaehlpunktNr: {
+        value: '',
+        validate: RED.validators.regex(/AT\d{31}|/)
+      },
+      name: {
+        value: ''
+      }
+    },
+    oneditprepare: function() {
+      $('#node-input-request').typedInput({
+        types: [{
+          value: 'request',
+          options: [
+            { value: 'all_messwerte', label: 'Get Messwerte for all Zählpunkte' },
+            { value: 'zaehlpunkt_messwerte', label: 'Get Messwerte for specific Zählpunkt' },
+            { value: 'all_zaehlpunkte', label: 'Get all Zählpunkte metadata' }
+          ]
+        }]
+      })
+
+      $('#node-input-request').change(function() {
+        switch ($('#node-input-request').val()) {
+          case 'all_messwerte':
+            $('#row-period').show()
+            $('#row-kundenNr').hide()
+            $('#row-zaehlpunktNr').hide()
+            break
+          case 'zaehlpunkt_messwerte':
+            $('#row-period').show()
+            $('#row-kundenNr').show()
+            $('#row-zaehlpunktNr').show()
+            break
+          case 'all_zaehlpunkte':
+            $('#row-period').hide()
+            $('#row-kundenNr').hide()
+            $('#row-zaehlpunktNr').hide()
+            break
+        }
+      })
+
+      $('#node-input-period').typedInput({
+        types: [{
+          value: 'period',
+          options: [
+            { value: 'current_month', label: 'Current month' },
+            { value: 'previous_month', label: 'Previous month' },
+            { value: 'yesterday', label: 'Yesterday' },
+            { value: 'last_three_days', label: 'Last three days' },
+            { value: 'custom', label: 'Custom period' },
+          ]
+        }]
+      })
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: 'font-awesome/fa-bolt',
+    label: function() {
+      return this.name || 'WNSM B2B'
+    }
+  })
+</script>
+
+<script type="text/html" data-template-name="wnsm-b2b">
+  <div class="form-row">
+    <label for="node-input-creds"><i class="fa fa-id-card-o"></i> Credentials</label>
+    <input type="text" id="node-input-creds">
+  </div>
+  <div class="form-row">
+    <label for="node-input-request"><i class="fa fa-globe"></i> Request</label>
+    <input type="text" id="node-input-request">
+  </div>
+  <div class="form-row" id="row-period">
+    <label for="node-input-period"><i class="fa fa-calendar"></i> Period</label>
+    <input type="text" id="node-input-period">
+  </div>
+  <div class="form-row" id="row-kundenNr">
+    <label for="node-input-kundenNr"><i class="fa fa-id-card-o"></i> Kundennr.</label>
+    <input type="text" id="node-input-kundenNr">
+  </div>
+  <div class="form-row" id="row-zaehlpunktNr">
+    <label for="node-input-zaehlpunktNr"><i class="fa fa-map-marker"></i> Zählpunktnr.</label>
+    <input type="text" id="node-input-zaehlpunktNr">
+  </div>
+  <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+</script>
+
+<script type="text/markdown" data-help-name="wnsm-b2b">
+Access to Wiener Netze Smart Meter B2B API. Currently only querying Zählpunkte (metering points) metadata and Messwerte/Zählerstände (meter readings) is supported.
+
+### Inputs
+
+: dateFrom (string)     : If period is set to custom, this is used to specify start of Messwerte date range in format "YYYY-MM-DD".
+: dateTo (string)       : If period is set to custom, this is used to specify end of Messwerte date range in format "YYYY-MM-DD".
+: kundenNr (string)     : If a specific Zählpunkt should be retrieved and no Kundennr. is specified in node config, this is used to specify Kundennr.
+: zaehlpunktNr (string) : If a specific Zählpunkt should be retrieved and no Zählpunktnr. is specified in node config, this is used to specify Zählpunktnr.
+
+### Outputs
+
+: payload (object) : See details section and API docs link in references section.
+
+### Details
+
+Messwerte of a specific Zählpunkt can only be retrieved, if Kundennr. is provided. Each Zählpunkt is assigned to one Kundennr. It's not needed if you retrieve Messwerte of all Zählpunkte. This gathers data of all Zählpunkte, which are related to the user account, even if they are assigned to different Kundennr.
+
+If you retrieve just Zählpunkte metdata, non smart meters are included as well.
+
+API error responses are not particularly meaningful. That means, if you are using a wrong Kundennr. or wrong combination of Kundennr. and Zählpunkt, it is not unlikely, that you will receive a HTTP response with status code 500 (instead of 404) and no further description. If you are trying to access Zählpunkte, which do not belong to your account, it is possible that you will receive HTTP status 404 instead of 403 and so on (at least this could be argued with security considerations).
+
+### References
+
+[Wiener Netze Smart Meter B2B API docs](https://api-portal.wienerstadtwerke.at/portal/apis/7f8a1cce-2a7e-4b18-840b-b0387ed9a3fc/apidocumentation) - description of API response objects (German)
+
+[GitHub](https://github.com/vrilcode/node-red-wnsm-b2b-api) - the nodes GitHub repository
+</script>
