@@ -48,12 +48,12 @@ module.exports = function(RED) {
           dateTo = dayjs().subtract(1, 'month').endOf('month').format('YYYY-MM-DD')
           break
         case 'yesterday':
-          dateFrom = dayjs().add(-1, 'day').format('YYYY-MM-DD')
-          dateTo = dayjs().add(-1, 'day').format('YYYY-MM-DD')
+          dateFrom = dayjs().subtract(1, 'day').format('YYYY-MM-DD')
+          dateTo = dayjs().subtract(1, 'day').format('YYYY-MM-DD')
           break
         case 'last_three_days':
-          dateFrom = dayjs().add(-3, 'day').format('YYYY-MM-DD')
-          dateTo = dayjs().add(-1, 'day').format('YYYY-MM-DD')
+          dateFrom = dayjs().subtract(3, 'day').format('YYYY-MM-DD')
+          dateTo = dayjs().subtract(1, 'day').format('YYYY-MM-DD')
           break
         case 'custom':
           if (!msg.dateFrom || !msg.dateTo) {
