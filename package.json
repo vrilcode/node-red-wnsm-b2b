@@ -1,7 +1,7 @@
 {
   "name": "@vrilcode/node-red-wnsm-b2b",
   "description": "Wiener Netze Smart Meter B2B API node for Node-RED",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "keywords": [
     "node-red",
     "smart-meter",
@@ -14,7 +14,11 @@
     "type": "git",
     "url": "git@github.com:vrilcode/node-red-wnsm-b2b.git"
   },
+  "engines" : { 
+    "node" : ">=16.0.0"
+  },
   "node-red": {
+    "version": ">=3.0.0",
     "nodes": {
       "wnsm-b2b-credentials": "wnsm-b2b-credentials.js",
       "wnsm-b2b": "wnsm-b2b-node.js"
