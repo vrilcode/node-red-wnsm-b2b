@@ -2,6 +2,11 @@
   "name": "@vrilcode/node-red-wnsm-b2b",
   "description": "Wiener Netze Smart Meter B2B API node for Node-RED",
   "version": "1.0.0",
+  "keywords": [
+    "node-red",
+    "smart-meter",
+    "wiener-netze"
+  ],
   "license": "GPL",
   "homepage": "https://github.com/vrilcode/node-red-wnsm-b2b",
   "author": "vrilcode (https://github.com/vrilcode)",
