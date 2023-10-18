@@ -5,7 +5,9 @@ is incapable of offering official API access, which has, however, been announced
 
 # Installation
 
-`npm i @vrilcode/node-red-wnsm-b2b`
+```
+npm i @vrilcode/node-red-wnsm-b2b
+```
 
 # References
 
