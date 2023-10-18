@@ -5,6 +5,10 @@
   "license": "GPL",
   "homepage": "https://github.com/vrilcode/node-red-wnsm-b2b",
   "author": "vrilcode (https://github.com/vrilcode)",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:vrilcode/node-red-wnsm-b2b.git"
+  },
   "node-red": {
     "nodes": {
       "wnsm-b2b-credentials": "wnsm-b2b-credentials.js",
