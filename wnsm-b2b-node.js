@@ -13,6 +13,7 @@ module.exports = function(RED) {
     const wnsm = new WnsmB2b(node.credentials.username, node.credentials.password)
     
     node.on('input', async function(msg, send, done) {
+      const wertetyp = config.wertetyp ? config.wertetyp : msg.wertetyp
       const kundenNr = config.kundenNr ? config.kundenNr : msg.kundenNr
       const zaehlpunktNr = config.zaehlpunktNr ? config.zaehlpunktNr : msg.zaehlpunktNr
 
@@ -74,7 +75,7 @@ module.exports = function(RED) {
           endpoint === 'all_zaehlpunkte' ? undefined : {
             'datumVon': dateFrom,
             'datumBis': dateTo,
-            'wertetyp': 'METER_READ'
+            'wertetyp': wertetyp ? wertetyp : 'METER_READ'
           }
         )
       } catch (e) {
