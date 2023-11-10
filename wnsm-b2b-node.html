@@ -13,6 +13,9 @@
       period: {
         value: 'current_month'
       },
+      wertetyp: {
+        value: 'METER_READ'
+      },      
       kundenNr: {
         value: '',
         validate: RED.validators.regex(/\d+|/)
@@ -41,16 +44,19 @@
         switch ($('#node-input-request').val()) {
           case 'all_messwerte':
             $('#row-period').show()
+            $('#row-wertetyp').show()
             $('#row-kundenNr').hide()
             $('#row-zaehlpunktNr').hide()
             break
           case 'zaehlpunkt_messwerte':
             $('#row-period').show()
+            $('#row-wertetyp').show()
             $('#row-kundenNr').show()
             $('#row-zaehlpunktNr').show()
             break
           case 'all_zaehlpunkte':
             $('#row-period').hide()
+            $('#row-wertetyp').hide()
             $('#row-kundenNr').hide()
             $('#row-zaehlpunktNr').hide()
             break
@@ -69,6 +75,20 @@
           ]
         }]
       })
+
+
+    $('#node-input-wertetyp').typedInput({
+        types: [{
+          value: 'wertetyp',
+          options: [
+            { value: 'DAY', label: 'Daily values' },
+            { value: 'QUARTER_HOUR', label: 'Quarter-houerly values' },
+            { value: 'METER_READ', label: 'Meter read' }
+          ]
+        }]
+      })
+
+      
     },
     inputs: 1,
     outputs: 1,
@@ -92,6 +112,10 @@
     <label for="node-input-period"><i class="fa fa-calendar"></i> Period</label>
     <input type="text" id="node-input-period">
   </div>
+  <div class="form-row" id="row-wertetyp">
+    <label for="node-input-wertetyp"><i class="fa fa-calendar"></i> Wertetyp</label>
+    <input type="text" id="node-input-wertetyp">
+  </div>  
   <div class="form-row" id="row-kundenNr">
     <label for="node-input-kundenNr"><i class="fa fa-id-card-o"></i> Kundennr.</label>
     <input type="text" id="node-input-kundenNr">
