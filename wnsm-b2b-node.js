@@ -74,7 +74,7 @@ module.exports = function(RED) {
           endpoint === 'all_zaehlpunkte' ? undefined : {
             'datumVon': dateFrom,
             'datumBis': dateTo,
-            'wertetyp': 'METER_READ'
+            'wertetyp': config.wertetyp ? config.wertetyp : 'METER_READ'
           }
         )
       } catch (e) {
