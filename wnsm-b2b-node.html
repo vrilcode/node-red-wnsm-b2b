@@ -8,12 +8,12 @@
         required: true
       },
       request: {
-        value: 'all_messwerte'
+        value: 'all_zaehlpunkte_values'
       },
       period: {
         value: 'current_month'
       },
-      wertetyp: {
+      granularity: {
         value: 'METER_READ'
       },      
       kundenNr: {
@@ -33,30 +33,30 @@
         types: [{
           value: 'request',
           options: [
-            { value: 'all_messwerte', label: 'Get Messwerte for all Zählpunkte' },
-            { value: 'zaehlpunkt_messwerte', label: 'Get Messwerte for specific Zählpunkt' },
-            { value: 'all_zaehlpunkte', label: 'Get all Zählpunkte metadata' }
+            { value: 'all_zaehlpunkte_values', label: 'Get values for all Zählpunkte' },
+            { value: 'single_zaehlpunkt_values', label: 'Get values for specific Zählpunkt' },
+            { value: 'all_metadata', label: 'Get metadata for all Zählpunkte' }
           ]
         }]
       })
 
       $('#node-input-request').change(function() {
         switch ($('#node-input-request').val()) {
-          case 'all_messwerte':
+          case 'all_zaehlpunkte_values':
             $('#row-period').show()
-            $('#row-wertetyp').show()
+            $('#row-granularity').show()
             $('#row-kundenNr').hide()
             $('#row-zaehlpunktNr').hide()
             break
-          case 'zaehlpunkt_messwerte':
+          case 'single_zaehlpunkt_values':
             $('#row-period').show()
-            $('#row-wertetyp').show()
+            $('#row-granularity').show()
             $('#row-kundenNr').show()
             $('#row-zaehlpunktNr').show()
             break
-          case 'all_zaehlpunkte':
+          case 'all_metadata':
             $('#row-period').hide()
-            $('#row-wertetyp').hide()
+            $('#row-granularity').hide()
             $('#row-kundenNr').hide()
             $('#row-zaehlpunktNr').hide()
             break
@@ -76,19 +76,16 @@
         }]
       })
 
-
-    $('#node-input-wertetyp').typedInput({
+      $('#node-input-granularity').typedInput({
         types: [{
-          value: 'wertetyp',
+          value: 'granularity',
           options: [
+            { value: 'METER_READ', label: 'Meter values' },
             { value: 'DAY', label: 'Daily values' },
-            { value: 'QUARTER_HOUR', label: 'Quarter-hourly values' },
-            { value: 'METER_READ', label: 'Meter read' }
+            { value: 'QUARTER_HOUR', label: 'Quarter-hourly values' }
           ]
         }]
       })
-
-      
     },
     inputs: 1,
     outputs: 1,
@@ -112,9 +109,9 @@
     <label for="node-input-period"><i class="fa fa-calendar"></i> Period</label>
     <input type="text" id="node-input-period">
   </div>
-  <div class="form-row" id="row-wertetyp">
-    <label for="node-input-wertetyp"><i class="fa fa-calendar"></i> Wertetyp</label>
-    <input type="text" id="node-input-wertetyp">
+  <div class="form-row" id="row-granularity">
+    <label for="node-input-granularity"><i class="fa fa-bar-chart-o"></i> Granularity</label>
+    <input type="text" id="node-input-granularity">
   </div>  
   <div class="form-row" id="row-kundenNr">
     <label for="node-input-kundenNr"><i class="fa fa-id-card-o"></i> Kundennr.</label>
@@ -125,8 +122,8 @@
     <input type="text" id="node-input-zaehlpunktNr">
   </div>
   <div class="form-row">
-      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-      <input type="text" id="node-input-name" placeholder="Name">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
   </div>
 </script>
 
@@ -148,7 +145,7 @@ Access to Wiener Netze Smart Meter B2B API. Currently only querying Zählpunkte 
 
 Messwerte of a specific Zählpunkt can only be retrieved, if Kundennr. is provided. Each Zählpunkt is assigned to one Kundennr. It's not needed if you retrieve Messwerte of all Zählpunkte. This gathers data of all Zählpunkte, which are related to the user account, even if they are assigned to different Kundennr.
 
-If you retrieve just Zählpunkte metdata, non smart meters are included as well.
+Request type and granularity can only be set via node config, not via msg properties (inputs). If you retrieve just Zählpunkte metadata, non-smart meters are included as well.
 
 API error responses are not particularly meaningful. That means, if you are using a wrong Kundennr. or wrong combination of Kundennr. and Zählpunkt, it is not unlikely, that you will receive a HTTP response with status code 500 (instead of 404) and no further description. If you are trying to access Zählpunkte, which do not belong to your account, it is possible that you will receive HTTP status 404 instead of 403 and so on (at least this could be argued with security considerations).
 

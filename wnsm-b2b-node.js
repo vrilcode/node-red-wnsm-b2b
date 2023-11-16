@@ -18,19 +18,19 @@ module.exports = function(RED) {
 
       let endpoint
       switch (config.request) {
-        case 'all_zaehlpunkte':
-          endpoint = '/zaehlpunkte/'
-          break
-        case 'all_messwerte':
+        case 'all_zaehlpunkte_values':
           endpoint = '/zaehlpunkte/messwerte/'
           break
-        case 'zaehlpunkt_messwerte':
+        case 'single_zaehlpunkt_values':
           if (!kundenNr || !zaehlpunktNr) {
             done('Missing Kundennummer and/or Zählpunktnummer, both has to be provided via config or msg properties')
             return
           } else {
             endpoint = `/zaehlpunkte/${kundenNr}/${zaehlpunktNr}/messwerte`
           }
+          break
+        case 'all_metadata':
+          endpoint = '/zaehlpunkte/'
           break
         default:
           done('Missing request type')
@@ -74,7 +74,7 @@ module.exports = function(RED) {
           endpoint === 'all_zaehlpunkte' ? undefined : {
             'datumVon': dateFrom,
             'datumBis': dateTo,
-            'wertetyp': config.wertetyp ? config.wertetyp : 'METER_READ'
+            'wertetyp': config.granularity
           }
         )
       } catch (e) {
