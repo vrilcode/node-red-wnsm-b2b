@@ -22,7 +22,7 @@ module.exports = function(RED) {
           endpoint = '/zaehlpunkte/messwerte/'
           break
         case 'single_zaehlpunkt_values':
-          if (!kundenNr || !zaehlpunktNr) {
+          if (!kundenNr || !zaehlpunktNr) {
             done('Missing Kundennummer and/or Zählpunktnummer, both has to be provided via config or msg properties')
             return
           } else {
@@ -56,7 +56,7 @@ module.exports = function(RED) {
           dateTo = dayjs().subtract(1, 'day').format('YYYY-MM-DD')
           break
         case 'custom':
-          if (!msg.dateFrom || !msg.dateTo) {
+          if (!msg.dateFrom || !msg.dateTo) {
             done('Missing msg properties dateFrom and/or dateTo')
             return
           }
@@ -71,7 +71,7 @@ module.exports = function(RED) {
       try {
         msg.payload = await wnsm.call(
           endpoint,
-          endpoint === 'all_zaehlpunkte' ? undefined : {
+          endpoint === 'all_metadata' ? undefined : {
             'datumVon': dateFrom,
             'datumBis': dateTo,
             'wertetyp': config.granularity
