@@ -8,7 +8,7 @@
         required: true
       },
       request: {
-        value: 'all_zaehlpunkte_values'
+        value: 'single_zaehlpunkt_values'
       },
       period: {
         value: 'current_month'
@@ -41,12 +41,6 @@
 
       $('#node-input-request').change(function() {
         switch ($('#node-input-request').val()) {
-          case 'all_zaehlpunkte_values':
-            $('#row-period').show()
-            $('#row-granularity').show()
-            $('#row-kundenNr').hide()
-            $('#row-zaehlpunktNr').hide()
-            break
           case 'single_zaehlpunkt_values':
             $('#row-period').show()
             $('#row-granularity').show()
