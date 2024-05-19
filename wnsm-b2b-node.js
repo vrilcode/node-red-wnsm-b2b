@@ -18,9 +18,6 @@ module.exports = function(RED) {
 
       let endpoint
       switch (config.request) {
-        case 'all_zaehlpunkte_values':
-          endpoint = '/zaehlpunkte/messwerte/'
-          break
         case 'single_zaehlpunkt_values':
           if (!kundenNr || !zaehlpunktNr) {
             done('Missing Kundennummer and/or Zählpunktnummer, both has to be provided via config or msg properties')
@@ -49,7 +46,7 @@ module.exports = function(RED) {
           break
         case 'yesterday':
           dateFrom = dayjs().subtract(1, 'day').format('YYYY-MM-DD')
-          dateTo = dayjs().subtract(1, 'day').format('YYYY-MM-DD')
+          dateTo = dayjs().format('YYYY-MM-DD')
           break
         case 'last_three_days':
           dateFrom = dayjs().subtract(3, 'day').format('YYYY-MM-DD')

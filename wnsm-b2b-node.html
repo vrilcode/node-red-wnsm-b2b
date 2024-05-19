@@ -33,7 +33,6 @@
         types: [{
           value: 'request',
           options: [
-            { value: 'all_zaehlpunkte_values', label: 'Get values for all Zählpunkte' },
             { value: 'single_zaehlpunkt_values', label: 'Get values for specific Zählpunkt' },
             { value: 'all_metadata', label: 'Get metadata for all Zählpunkte' }
           ]
@@ -134,16 +133,14 @@ Access to Wiener Netze Smart Meter B2B API. Currently only querying Zählpunkte 
 
 : dateFrom (string)     : If period is set to custom, this is used to specify start of Messwerte date range in format "YYYY-MM-DD".
 : dateTo (string)       : If period is set to custom, this is used to specify end of Messwerte date range in format "YYYY-MM-DD".
-: kundenNr (string)     : If a specific Zählpunkt should be retrieved and no Kundennr. is specified in node config, this is used to specify Kundennr.
-: zaehlpunktNr (string) : If a specific Zählpunkt should be retrieved and no Zählpunktnr. is specified in node config, this is used to specify Zählpunktnr.
+: kundenNr (string)     : Kundennummer, which is associated with requested Zählpunkt
+: zaehlpunktNr (string) : Zählpunktnummer
 
 ### Outputs
 
 : payload (object) : See details section and API docs link in references section.
 
 ### Details
-
-Messwerte of a specific Zählpunkt can only be retrieved, if Kundennr. is provided. Each Zählpunkt is assigned to one Kundennr. It's not needed if you retrieve Messwerte of all Zählpunkte. This gathers data of all Zählpunkte, which are related to the user account, even if they are assigned to different Kundennr.
 
 Request type and granularity can only be set via node config, not via msg properties (inputs). If you retrieve just Zählpunkte metadata, non-smart meters are included as well.
 
